@@ -1,0 +1,285 @@
+
+## Everything linux
+
+Good Horizontal Model I like to apply to MEC  
+1.	A 10 minute 'What is Apache Kafka?' by Tim bergland (I highly recommend this) https://www.youtube.com/watch?v=06iRM1Ghr1k
+2.	Apache Kafka in the Telco Industry: https://www.kai-waehner.de/blog/2020/07/03/telco-ott-applications-with-apache-kafka-telecom-sector-oss-bss-hybrid-cloud/
+1.	A 10 minute 'What is Apache Kafka?' by Tim bergland (I highly recommend this) https://www.youtube.com/watch?v=06iRM1Ghr1k
+2.	Apache Kafka in the Telco Industry: https://www.kai-waehner.de/blog/2020/07/03/telco-ott-applications-with-apache-kafka-telecom-sector-oss-bss-hybrid-cloud/
+3.	Telco Use Cases white board. https://www.youtube.com/watch?v=s9aAtQz4zsI&t=306s
+
+Simulations
+--
+1. LSTM, CTTC NS-3 , RSRP/QoE of the user - QOE machine, optimizations for hysteresis, Time to trigger, a2/a3 events..from the network, LSTM scheme to suggest the optimal neighbor to go to, TCP file transfer applications..
+
+
+2. Kafka..
+
+3. LENA, radio, feature...handover for AI/ML feature...many deficiencies..
+
+4. Modelling the 5g-nr, and O-RAN architecture, LENA..based RRC and so on..
+
+https://github.com/wigig-tools/qd-realization
+
+https://quadriga-channel-model.de/#Documentation
+
+Mostafa.Tofighbakhsh@verizon.com
+
+
+
+Git:
+git config --global user.name "Ravi Ravindran"
+git init <projectname>
+
+
+
+Suggestions:
+ * list clusters with: kops get cluster
+ * edit this cluster with: kops edit cluster anoushkaravishankar.com
+ * edit your node instance group: kops edit ig --name=anoushkaravishankar.com nodes
+ * edit your master instance group: kops edit ig --name=anoushkaravishankar.com master-us-west-1a
+
+Vagrant:
+Download Vagrant from site
+vagrant init ubuntu/xenial64
+vagrant up
+vagrant ssh
+ps -a (to get the port)
+scp -i ./.vagrant/machines/default/virtualbox/private_key -P 2222 -rp <directory> vagrant@127.0.0.1:~
+scp -i ./.vagrant/machines/default/virtualbox/private_key -P 2222 vagrant@127.0.0.1:~/text2.txt ./
+
+pyang -f tree <xxx.yang> |more
+
+
+~$ ssh-keygen -f .ssh/id_rsa
+aws configure //for setting userid/pass
+
+export KOPS_STATE_STORE=s3://kops-state-3440
+
+#KOPS
+//check date on xenial
+sudo date 021814212021
+
+kops create cluster --name=anoushkaravishankar.com --state=s3://kops-state-3440 --zones=us-west-1a --node-count=2 --node-size=t2.micro --master-size=t2.micro --dns-zone=Z09534763UG9K49EHOXL7
+
+kops update cluster --name anoushkaravishankar.com --state=s3://kops-state-3440 --yes
+
+kops validate cluster anoushkaravishankar.com
+
+kops create secret --name anoushkaravishankar.com sshpublickey admin -i ~/.ssh/id_rsa.pub --state=s3://kops-state-3440
+
+kops delete cluster anoushkaravishankar.com --state=s3://kops-state-3440 --yes
+
+kops edit cluster anoushkaravishankar.com --state=s3://kops-state-3440 --yes
+
+#DNS
+
+dig NS dev.aunoushkaravishankar.comm
+whois anoushkaravishankar.com
+host -t NS anoushkaravishankar.com
+sudo apt-get install bind9-host
+
+
+#minikube
+minikube service <service-name> --url
+
+docker:
+#install docker.io
+xenial> apt-get install docker.io
+mac > brew install docker.io
+hub.docker.com ravi.ravindran@gmail.com/19SHa77!!
+login : raviravindran/19SHa77!!
+
+sudo usermod -G docker ubuntu
+docker push raviravindran/docker-demo
+docker login
+docker build ./
+sudo docker images
+docker tag 105f3ae396d6 raviravindran/docker-demo
+sudo docker tag f44f08b0577d raviravindran/docker-demo:2
+docker history <image>
+sudo docker run -it ubuntu bash //running a base ubuntu container, -i to terminate with ctrl+c, t is the tag
+
+#ansible
+ansible target1 -m ping -i inventory.txt
+
+cat> inventory.txt
+target1 ansible_host=<ip address> ansible_ssh_pass=osboxes.org
+#playing the ansible script
+ansible-playbook <playbook file name>
+
+aws
+===
+aws login
+aws iam create-service-linked-role --aws-service-name "elasticloadbalancing.amazonaws.com"
+aws ec2 describe-instances
+
+kubectl commands
+--
+#Changing Context
+kubectl config use-context YOURDESIREDCONTEXT
+kubectl config use-context minikube
+kubectl config view
+
+
+#Get
+kubectl get nodes
+kubectl drain <nodeid> //kubectl describe pod <pod-name> shows the node where the pod is
+kubectl get deployments
+kubectl get rs
+kubectl get pods --show-labels
+kubectl get pod
+kubectl get service -o wide
+kubectl get replicationcontroller
+source <(kubectl completion bash)
+kubect get pods -n kube-systemh
+
+#describe
+Kubectl describe nodes
+kubectl describe pod <pod>
+kubectl describe service <service-name>
+
+#delete
+kubectl delete pods busybox
+
+#Service
+kubectl expose pod <pod> --port=444 --name=frontend 
+kubectl expose pod <pod> --type=NodePort --name <Service-name> //creates Service
+kubectl port-forward <pod> 8080
+kubectl attach <podname> -i
+kubectl exec -i -t <pod> -c <container-name> -- bash
+kubectl label pod <pod> mylabel=awsome
+kubectl run -i --tty busybox --image=busybox --restart=Never --sh ; nslookup <service-name>
+kubectl exec nodehelloworld.example.com -- ls /app
+kubectl exec nodehelloworld.example.com -- touch /app/text.txt
+kubectl edit deploy/wordpress-deployment
+kubectl run -i --tty --image busybox:1.28 dns-test --restart=Never --rm
+curl <LB>
+
+#Config Map
+$kubectl create configmap app-config --from0-file=app.properties
+$ cat /etc/nginx/conf.d/reverseproxy.conf
+
+//watch the creation of a pod
+kubectl get pods -w -l app=nginx
+
+
+#LOGS
+kubectl logs <pod-name>
+kubectl logs <podID> <containername>
+kubectl logs wordpress-deployment-7d4896594c-wpnxj wordpress
+
+
+kubectl rollout status deployment/xxx
+- rollout history deployment/xx
+- rollout status
+
+kubectl rollout undo deployment/helloworld-deployment
+kubectl set image deployment/helloworld-deployment k8s-demo=k8s-demo:2
+kubectl set image deployment/helloworld-deployment k8s-demo=raviravindran/docker-demo:2
+kubectl edit deployment/xxx
+
+kubectl describe svc xxx
+
+---
+
+command:
+        - bash
+        - "-c"
+        - |
+          set -ex
+          # Generate mysql server-id from pod ordinal index.
+          [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+          ordinal=${BASH_REMATCH[1]}
+          echo [mysqld] > /mnt/conf.d/server-id.cnf
+          # Add an offset to avoid reserved server-id=0 value.
+          echo server-id=$((100 + $ordinal)) >> /mnt/conf.d/server-id.cnf
+          # Copy appropriate conf.d files from config-map to emptyDir.
+          if [[ $ordinal -eq 0 ]]; then
+            cp /mnt/config-map/primary.cnf /mnt/conf.d/
+          else
+            cp /mnt/config-map/replica.cnf /mnt/conf.d/
+          fi          
+
+
+--
+
+
+
+kubectl exec database -i -t -- mysql -u root -p
+
+kubectl get nodes
+kubectl drain <node-id> --force
+
+#helm
+helm init/rest/install/search/list/upgrade/rollback
+
+
+c++
+g++ -std=c++11 -o lambda LambdaExpressions.cpp 
+
+
+unix
+--
+cat <<EOF > app.properties # will take input from terminal till EOF is hit
+echo -n "text" > [file]
+echo -n "text" |base64
+echo "base64pass" | base64 --decode
+
+cat /etc/os-release
+uname -r
+cat /proc/cmdline
+lscpuß
+
+Container
+--
+taskset -cpa 1
+
+#conda
+conda create -n spyder-env spyder=4
+conda create -n spyder-env spyder=4 numpy scipy pandas matplotlib sympy cython
+
+#NS3
+./waf configure --disable-werror --build-profile=debug --enable-examples --enable-tests
+
+lldb  
+./waf --run test10 --command-template="lldb %s"
+
+lldb -- a.out argument1
+breakpoint set -n main
+
+b main
+run 
+n  // Step over
+s //Step into
+c //continue
+print [var_name]
+fr v
+break set -f demo.cpp -l #
+b demo.cpp : #
+b class-name::function()
+
+b function_name()
+br list //list all the breakpoints
+
+br del <number of the breakpoint in the list> //removing breakpoints
+
+br del //removes all breakpoints
+
+p <value>
+
+frame variable
+
+fr s //shows where you are in the execution
+
+bt //backtrace
+
+frame select <number>
+
+fr v //shows all the variables in the frame
+
+watchpoint set variable <globalVariable>
+
+
+
+

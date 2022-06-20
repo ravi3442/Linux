@@ -1,3 +1,5 @@
+#Everything linux
+
 Suggestions:
  * list clusters with: kops get cluster
  * edit this cluster with: kops edit cluster anoushkaravishankar.com

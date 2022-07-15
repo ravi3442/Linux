@@ -401,6 +401,8 @@ LteFfrAlgorithm::SetDlBandwidth
 
 ##Git
 
+github token : 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
+
 git config --global user.name "ravi3442"
 
 git config --global user.email "ravi.ravindran@gmail.com"
